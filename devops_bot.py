@@ -43,10 +43,7 @@ docs = text_splitter.split_documents(pages)
 
 import shutil
 # Define ChromaDB storage path (Relative for Streamlit Cloud)
-persist_directory = os.path.join(current_dir, "Chroma")
-
-# Remove existing ChromaDB (Prevents conflicts on re-runs)
-shutil.rmtree(persist_directory, ignore_errors=True)
+persist_directory = "./Chroma"  # ✅ Works on Streamlit Cloud
 
 embedding = HuggingFaceEmbeddings(model_name="BAAI/bge-small-en-v1.5")
 
