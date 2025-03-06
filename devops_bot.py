@@ -15,7 +15,13 @@ load_dotenv()  # Load .env file
 groq_api_key = os.getenv("GROQ_API_KEY")
 app = FastAPI()
 
-loader = PyPDFLoader ('C:/Users/WAJIZ.PK/Desktop/Python_projects/DevOps_bot/DevOps_Documentation.pdf')
+current_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Construct the relative path to the PDF file
+pdf_path = os.path.join(current_dir, "DevOps_Documentation.pdf")
+
+#loader = PyPDFLoader ('C:/Users/WAJIZ.PK/Desktop/Python_projects/DevOps_bot/DevOps_Documentation.pdf')
+loader = PyPDFLoader (pdf_path)
 
 pages = loader.load()
 
