@@ -8,11 +8,16 @@ from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_groq import ChatGroq 
 from langchain.chains import RetrievalQA
 from fastapi import FastAPI 
+import streamlit as st
 
 
 sys.path.append('../..')
-load_dotenv()  # Load .env file
-groq_api_key = os.getenv("GROQ_API_KEY")
+if "GROQ_API_KEY" in st.secrets:
+    groq_api_key = st.secrets["GROQ_API_KEY"]
+else:
+    
+    load_dotenv()
+    groq_api_key = os.getenv("GROQ_API_KEY")
 app = FastAPI()
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -36,9 +41,12 @@ docs = text_splitter.split_documents(pages)
 
 #print(len(pages))
 
-persist_directory = 'C:/Users/WAJIZ.PK/Desktop/Python_projects/DevOps_bot/'
 import shutil
-shutil.rmtree("C:/Users/WAJIZ.PK/Desktop/Python_projects/DevOps_bot/Chroma", ignore_errors=True)
+# Define ChromaDB storage path (Relative for Streamlit Cloud)
+persist_directory = os.path.join(current_dir, "Chroma")
+
+# Remove existing ChromaDB (Prevents conflicts on re-runs)
+shutil.rmtree(persist_directory, ignore_errors=True)
 
 embedding = HuggingFaceEmbeddings(model_name="BAAI/bge-small-en-v1.5")
 
