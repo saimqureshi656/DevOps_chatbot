@@ -9,7 +9,7 @@ from langchain_groq import ChatGroq
 from langchain.chains import RetrievalQA
 from fastapi import FastAPI 
 import streamlit as st
-
+import chromadb
 
 sys.path.append('../..')
 if "GROQ_API_KEY" in st.secrets:
@@ -43,9 +43,11 @@ docs = text_splitter.split_documents(pages)
 
 import shutil
 # Define ChromaDB storage path (Relative for Streamlit Cloud)
-persist_directory = "./Chroma"  # ✅ Works on Streamlit Cloud
+#persist_directory = "./Chroma"  # ✅ Works on Streamlit Cloud
 
 embedding = HuggingFaceEmbeddings(model_name="BAAI/bge-small-en-v1.5")
+
+chroma_client = chromadb.PersistentClient(path="./chroma_db")
 
 vectordb = Chroma.from_documents(
     documents=docs,  # ✅ Required argument
