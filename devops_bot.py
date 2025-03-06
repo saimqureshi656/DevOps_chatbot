@@ -48,11 +48,11 @@ persist_directory = "./Chroma"  # ✅ Works on Streamlit Cloud
 embedding = HuggingFaceEmbeddings(model_name="BAAI/bge-small-en-v1.5")
 
 vectordb = Chroma.from_documents(
-    documents= docs,
+    collection_name="devops_chatbot",
     embedding=embedding,
     persist_directory=persist_directory
 )
-
+vectordb.add_documents(docs)
 #print(vectordb._collection.count())
 
 from langchain.prompts import PromptTemplate
